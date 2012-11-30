@@ -1,0 +1,138 @@
+######################################################################
+# Microsoft Visual C++ Makefile for the primesieve console 
+# application and the primesieve C++ library
+# 
+# Author:          Kim Walisch
+# Contact:         kim.walisch@gmail.com
+# Created:         10 July 2010
+# Last modified:   7 January 2012
+#
+# Project home:    http://primesieve.googlecode.com
+######################################################################
+
+CXX           = cl /nologo
+CXXFLAGS      = /W2 /O2 /GL /openmp /EHsc
+LINK          = link
+LFLAGS        = /OPT:REF,ICF /LTCG
+INCPATH       = /I"src\thirdparty"
+SOEDIR        = src\soe
+CONDIR        = src\console
+BINDIR        = bin
+LIBDIR        = lib
+BINARY        = primesieve.exe
+LIBPRIMESIEVE = primesieve.lib
+LINK_LIBS     =
+ADD_LINKER_OPTS =
+
+
+OBJECTS = $(BINDIR)\WheelFactorization.obj \
+  $(BINDIR)\PreSieve.obj \
+  $(BINDIR)\EratSmall.obj \
+  $(BINDIR)\EratMedium.obj \
+  $(BINDIR)\EratBig.obj \
+  $(BINDIR)\SieveOfEratosthenes.obj \
+  $(BINDIR)\PrimeNumberGenerator.obj \
+  $(BINDIR)\PrimeNumberFinder.obj \
+  $(BINDIR)\PrimeSieve.obj \
+  $(BINDIR)\ParallelPrimeSieve.obj \
+  $(BINDIR)\test.obj \
+  $(BINDIR)\main.obj
+
+OBJECTS_LIBPRIMESIEVE = $(LIBDIR)\WheelFactorization.obj \
+  $(LIBDIR)\lisp.obj \
+  $(LIBDIR)\PreSieve.obj \
+  $(LIBDIR)\EratSmall.obj \
+  $(LIBDIR)\EratMedium.obj \
+  $(LIBDIR)\EratBig.obj \
+  $(LIBDIR)\SieveOfEratosthenes.obj \
+  $(LIBDIR)\PrimeNumberGenerator.obj \
+  $(LIBDIR)\PrimeNumberFinder.obj \
+  $(LIBDIR)\PrimeSieve.obj \
+  $(LIBDIR)\ParallelPrimeSieve.obj
+
+#-----------------------------------------------------------------------------
+# check if the user indicated his CPU's L1/L2 cache sizes (read INSTALL)
+#-----------------------------------------------------------------------------
+
+!IFDEF L1_DCACHE_SIZE
+CPU_CACHE_SIZES = /DL1_DCACHE_SIZE=$(L1_DCACHE_SIZE)
+!ENDIF
+!IFDEF L2_CACHE_SIZE
+CPU_CACHE_SIZES = $(CPU_CACHE_SIZES) /DL2_CACHE_SIZE=$(L2_CACHE_SIZE)
+!ENDIF
+
+#-----------------------------------------------------------------------------
+# build the primesieve console application (read INSTALL)
+#-----------------------------------------------------------------------------
+
+bin: dir_bin $(OBJECTS)
+	$(LINK) $(LFLAGS) /OUT:$(BINDIR)\$(BINARY) $(OBJECTS)
+
+$(OBJECTS): {$(SOEDIR)\;$(CONDIR)\}$$(@B).cpp
+	$(CXX) $(CXXFLAGS) $(CPU_CACHE_SIZES) $(INCPATH) /c $? /Fo"$@"
+
+dir_bin:
+	@if not exist $(BINDIR) mkdir $(BINDIR)
+
+#-----------------------------------------------------------------------------
+# build the primesieve C++ library (read docs/LIBPRIMESIEVE)
+#-----------------------------------------------------------------------------
+
+CXXFLAGS_LIBPRIMESIEVE = /W2 /O2 /GL /openmp /EHsc
+!IF "$(CXXFLAGS_LIBPRIMESIEVE)" == "$(CXXFLAGS)"
+# default flags for primesieve.lib (single-threaded, no OpenMP)
+CXXFLAGS_LIBPRIMESIEVE = /W2 /O2 /EHsc
+!ELSE
+# use the user's custom CXXFLAGS
+CXXFLAGS_LIBPRIMESIEVE = $(CXXFLAGS)
+!ENDIf
+
+lib: dir_lib $(OBJECTS_LIBPRIMESIEVE)
+	lib.exe /OUT:$(LIBDIR)\$(LIBPRIMESIEVE) $(OBJECTS_LIBPRIMESIEVE)
+
+$(OBJECTS_LIBPRIMESIEVE): $(SOEDIR)\$$(@B).cpp
+	$(CXX) $(CXXFLAGS_LIBPRIMESIEVE) $(CPU_CACHE_SIZES) $(INCPATH) /c $? /Fo"$@"
+        $(LINK)  /OUT:$(LIBDIR)\$(LIBPRIMESIEVEDLL) $(ADD_LINKER_OPTS)  $(LINK_LIBS) $(OBJECTS_LIBPRIMESIEVE)
+        copy $(LIBDIR)\$(LIBPRIMESIEVEDLL) ..
+        
+dir_lib:
+	@if not exist $(LIBDIR) mkdir $(LIBDIR)
+
+#-----------------------------------------------------------------------------
+# Common targets
+#-----------------------------------------------------------------------------
+
+all: bin lib
+
+clean:
+!IF EXIST($(BINDIR))
+	del /Q $(BINDIR)\$(BINARY) $(BINDIR)\*.obj
+!ENDIF
+!IF EXIST($(LIBDIR))
+	del /Q $(LIBDIR)\$(LIBPRIMESIEVE) $(LIBDIR)\*.obj
+!ENDIF
+
+#-----------------------------------------------------------------------------
+# `nmake -f Makefile.msvc check` runs various sieving tests to assure that
+# the compiled primesieve binary produces correct results
+#-----------------------------------------------------------------------------
+
+check test: bin
+	$(BINDIR)\$(BINARY) -test
+
+#-----------------------------------------------------------------------------
+# Makefile help menu
+#-----------------------------------------------------------------------------
+
+help:
+	@echo --------------------------------------------------------
+	@echo --------------- primesieve Makefile.msvc ---------------
+	@echo --------------------------------------------------------
+	@echo "nmake -f Makefile.msvc                    Builds the primesieve console application using MSVC++"
+	@echo "nmake -f Makefile.msvc lib                Builds the primesieve C++ library (read docs/LIBPRIMESIEVE)"
+	@echo "nmake -f Makefile.msvc check              Tests the compiled primesieve binary"
+	@echo "nmake -f Makefile.msvc clean              Cleans the output directories (./bin, ./lib)"
+	@echo "nmake -f Makefile.msvc CXXFLAGS=options   Specify custom compiler flags"
+	@echo "nmake -f Makefile.msvc L1_DCACHE_SIZE=KB  Specify the CPU's L1 data cache size (read INSTALL)"
+	@echo "nmake -f Makefile.msvc L2_CACHE_SIZE=KB   Specify the CPU's L2 cache size (read INSTALL)"
+	@echo "nmake -f Makefile.msvc help               Prints this help menu"

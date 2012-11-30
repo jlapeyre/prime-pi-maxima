@@ -1,0 +1,44 @@
+Fri Feb  3 22:16:01 CET 2012
+John Lapeyre
+
+This is the primesieve software by Kim Walisch modified to be called
+by lisp and maxima. This is a quick and partial implementation. The
+code in this directory builds a modified shared library. 
+The interface code is in the parent directory.
+
+BUILD AND INSTALL:
+ linux:
+  make lib
+
+ MS Windows ??
+  I tried building with mingw, but it failed when linking the objects
+  because openmp was missing or not found.
+
+The source for the frontends has been removed. A file lisp.cpp is added
+in src/soe for routines to interface with lisp.
+The cffi file and the prime_pi tables are not currently included in this
+directory, but rather in the parent directory.
+
+The Walisch code sieves a range of numbers. The libsieve.lisp code in
+the parent directory also looks up known values in a table and adds
+the result of the sieving. There are bigger denser tables around that
+can be used as well.
+
+The tables are translated from those on Tomás Oliveira's website. See
+the README for further information.
+
+Walisch only builds a static library. I don't know if there is a way to
+get this to work for maxima. I added lines in the Makefile and fPIC
+to build a shared library.
+
+NOTES:
+
+I didn't understand how to get signal handling (SIGINT) in c++ to work with
+the lisp interface (don't really know how it works anyway.) I put in
+a plain C handler and set a global variable which is checked via lisp.
+I modified the library to check for the global variable here and
+there. I don't know that it cleans up properly. At any rate, catching
+SIGINT is essential, because it is very easy for the user to start
+a sieving that runs for a very long time.
+
+

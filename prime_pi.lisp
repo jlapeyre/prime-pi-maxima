@@ -1,0 +1,5 @@
+(load "./packages-prime.lisp")
+(load "./prime-tables")
+(prime-tables::setup-prime-pi-tables)
+(load "./libsieve")
+(load "./prime-pi-funcs")

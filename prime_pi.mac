@@ -1,0 +1,9 @@
+mext_require("maxdoc");
+mext_provide("prime_pi",
+  [
+  "load-cl-cffi",
+  "prime_pi-packages",
+  "prime_pi_tables",
+  "prime-tables",
+  "libsieve",
+  "prime-pi-funcs"]);

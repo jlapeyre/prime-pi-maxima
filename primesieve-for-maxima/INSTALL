@@ -1,0 +1,68 @@
+######################################################################
+# Compilation guide for primesieve (console version)
+#
+# Author:        Kim Walisch
+# Contact:       kim.walisch@gmail.com
+# Created:       10 July 2010
+# Last modified: 7 January 2012
+#
+# Project home:  http://primesieve.googlecode.com
+######################################################################
+
+I. About
+========
+
+  This file explains how to compile the primesieve console
+  application, to compile the primesieve GUI application please refer
+  to src/qt-gui/INSTALL. If you want to use primesieve in your own C++
+  program read docs/LIBPRIMESIEVE.
+
+II. How to build primesieve
+===========================
+
+  Unzip the source archive, open a terminal or 'Visual Studio Command 
+  Prompt' and cd into the primesieve directory. Now use one of the
+  following make commands to build primesieve with your favorite C++
+  compiler:
+
+  > nmake -f Makefile.msvc                 Microsoft Visual C++
+  $ make                                   GNU g++
+  $ make CXX=compiler CXXFLAGS="options"   Other C++ compilers
+
+III. How to test it
+===================
+
+  > cd bin
+  > primesieve 2 10000       Counts the primes up to 10000
+  > primesieve 2 1E6 -p1     Prints the primes up to 10^6
+  > primesieve -help         Prints the help menu
+  > primesieve -test         Runs various sieving tests
+
+  Note: for Unix-like operating systems use ./primesieve
+
+IV. Target a specific CPU
+=========================
+
+  You can indicate your CPU's L1 data cache and L2 cache sizes (in
+  kilobytes) per core to get the best performance e.g.:
+
+  $ make L1_DCACHE_SIZE=64 L2_CACHE_SIZE=512
+
+V. Compiler benchmark
+=====================
+
+  Here are some primesieve (v. 3.3) timings for various C++ compilers
+  measured on an Intel Core-i5 670 3.46GHz with DDR3-1333 running
+  Fedora 16 x86_64 and Windows 7 64-bit. Best time in seconds to sieve
+  (single-threaded) an interval of size 1E10 starting at 1E18:
+
+  $ ./primesieve 1E18 -o1E10 -t1
+
+  Compiler                    Optimization flags   OS        Time/s   Perf.
+  -------------------------------------------------------------------------
+  Intel C++ Compiler 12.0     -O2 -ipo -prof-use   Linux     14.69    100%
+  SunStudio 12                -fast -xrestrict     Linux     14.97     98%
+  GNU g++ 4.6                 -O2                  Linux     15.08     97%
+  Microsoft Visual C++ 2010   /O2 /GL              Windows   15.53     95%
+  Mingw-w64 g++ 4.6           -O2                  Windows   15.60     94%
+  LLVM/clang++ 2.8            -O2                  Linux     17.62     83%

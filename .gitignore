@@ -1,0 +1,11 @@
+*~
+*.o
+*.fasl
+*.fas
+*.sse2f
+*.err
+*.so
+hide2/
+hide/
+
+

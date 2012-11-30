@@ -1,0 +1,113 @@
+January, 7 2012
+Kim Walisch, <kim.walisch@gmail.com>
+http://primesieve.googlecode.com
+
+Contents
+========
+
+  1. About the primesieve C++ library
+  2. Build libprimesieve    (Unix-like OSes)
+  3. Usage example          (Unix-like OSes)
+  4. OpenMP multi-threading (Unix-like OSes)
+  5. Build primesieve.lib   (Windows, MSVC++)
+  6. Usage example          (Windows, MSVC++)
+  7. OpenMP multi-threading (Windows, MSVC++)
+  8. sum_primes.cpp
+
+1. About the primesieve C++ library
+===================================
+
+  The easiest way to use primesieve in your C++ program is to build
+  the static primesieve library and link it into your application,
+  this causes no dependencies. For Unix-like operating systems (Linux,
+  Mac OS X, ...) read sections 2 to 4, for Windows and MSVC++ read
+  sections 5 to 7.
+
+  The file docs/USAGE_EXAMPLES contains commented source code examples
+  that show how to use PrimeSieve objects e.g. for prime number
+  generation.
+
+2. Build libprimesieve (Unix-like OSes)
+=======================================
+
+  Open a terminal, cd into the primesieve source code directory and
+  run:
+
+  $ make lib
+  $ sudo make install
+
+  The first command builds lib/libprimesieve.a using g++, the second
+  command copies the library to /usr/lib and the primesieve header
+  files to /usr/include/soe.
+
+  To build libprimesieve using a custom C++ compiler use:
+
+  $ make lib CXX=compiler CXXFLAGS="options"
+
+3. Usage example (Unix-like OSes)
+=================================
+
+  The sum_primes.cpp program (see section 8.) can now be compiled by
+  specifying libprimesieve (-lprimesieve flag) at the end of the
+  linker command:
+
+  $ g++ sum_primes.cpp -lprimesieve
+
+4. OpenMP multi-threading (Unix-like OSes)
+==========================================
+
+  By default libprimesieve is built single-threaded, if you want to
+  use multi-threaded ParallelPrimeSieve objects then you have to
+  compile libprimesieve using OpenMP and you must also add the OpenMP
+  flag in the linker step of your program e.g.:
+
+  $ make lib CXXFLAGS="-O2 -fopenmp"
+  $ sudo make install
+  $ g++ my_program.cpp -lprimesieve -fopenmp
+
+5. Build primesieve.lib (Windows, MSVC++)
+=========================================
+
+  Open a Visual Studio Command Prompt, cd into the primesieve source
+  code directory and run:
+
+  > nmake -f Makefile.msvc lib
+
+  This command builds the primesieve C++ library to
+  lib\primesieve.lib.
+
+6. Usage example (Windows, MSVC++)
+==================================
+
+  The sum_primes.cpp program (see section 8.) can now be compiled by
+  specifying the path to the primesieve header files (/I) to the
+  compiler and by adding primesieve.lib to the linker:
+
+  > cl /O2 /EHsc /I"path-to-primesieve\src" sum_primes.cpp /link "path-to-primesieve\lib\primesieve.lib"
+
+7. OpenMP multi-threading (Windows, MSVC++)
+==========================================
+
+  By default primesieve.lib is built single-threaded, if you want to
+  use multi-threaded ParallelPrimeSieve objects then you have to
+  compile primesieve.lib using OpenMP:
+
+  > nmake -f Makefile.msvc lib CXXFLAGS="/O2 /openmp /EHsc"
+
+8. sum_primes.cpp
+=================
+
+  #include <soe/PrimeSieve.h>
+  #include <iostream>
+
+  unsigned int sum = 0;
+  void sumPrimes(unsigned int prime) {
+    sum += prime;
+  }
+
+  int main() {
+    PrimeSieve ps;
+    ps.generatePrimes(2, 1000, sumPrimes);
+    std::cout << "Sum of the primes below 1000 = " << sum << std::endl;
+    return 0;
+  }

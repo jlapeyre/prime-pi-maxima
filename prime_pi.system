@@ -1,0 +1,32 @@
+;;-*- Mode: Lisp -*-
+;; System definition file for building and installing prime_pi
+
+(in-package :mext-maxima)
+
+(create-distribution "prime_pi"
+  :loader "load-prime_pi")
+;  :install-only "prime_pi-rtests")
+
+(mk:defsystem prime_pi
+  :source-extension "lisp"
+  :components
+   (
+    (:file "load-cl-cffi" :load-only t)
+    (:file "prime_pi-packages" :load-only t)
+    (:file "prime_pi_tables")
+    (:file "prime-tables")
+    (:file "libsieve")
+    (:file "prime-pi-funcs")))
+
+(mk:defsystem load-prime_pi
+  :source-extension "mac"
+  :components
+   ((:file "prime_pi")))
+  
+;; (mk:defsystem prime_pi-rtests
+;;   :source-extension "mac"
+;;   :source-pathname "rtests"
+;;   :components
+;;     ( (:file "rtest_list")
+;;       (:file "rtest_table")
+;;       (:file "rtest_take")))

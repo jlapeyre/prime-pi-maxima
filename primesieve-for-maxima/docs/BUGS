@@ -1,0 +1,63 @@
+Kim Walisch, <kim.walisch@gmail.com>
+http://primesieve.googlecode.com
+
+Please contact the author if you find a new bug. The latest version of
+primesieve can be retrieved from its Subversion repository:
+
+$ svn checkout http://primesieve.googlecode.com/svn/trunk/ primesieve-read-only
+
+List of fixed bugs in primesieve
+================================
+
+8. src/soe/ParallelPrimeSieve.cpp might create PrimeSieve objects with
+   START > STOP and cause an invalid_argument exception.
+   $ export OMP_NUM_THREADS=8
+   $ ./primesieve -test; ./primesieve -test; ./primesieve -test;
+   >> FIXED in version 3.2, committed on the 13th November 2011
+
+7. SieveIndex overflow (> 2^23) in src/soe/EratMedium.cpp when using a
+   sieve size >= 4096 kilobytes past 1E15.
+   $ ./primesieve 1e16 1e16+1e10 -s8192 -t1
+   Prime numbers : 280434992
+   $ ./primesieve 1e16 1e16+1e10 -s256 -t1
+   Prime numbers : 271425366
+   >> FIXED in version 3.1, committed on the 10th October 2011
+
+6. The following options caused a segmentation fault in the console
+   version of primesieve:
+   $ ./primesieve -q; ./primesieve -p1; ...
+   Error in console/main.cpp, processOptions(int, char**)
+   >> FIXED in version 2.2, committed on the 26th May 2011
+
+5. PrimeSieve::sieve() was not declared virtual which caused
+   ParallelPrimeSieve to run single-threaded in some cases.
+   >> FIXED in version 2.2, committed on the 25th May 2011
+
+4. Fixed an OpenMP race condition in ParallelPrimeSieve.cpp which did
+   only show up with the sunCC compiler.
+   >> FIXED in version 2.2, committed on the 23rd May 2011
+
+3. The -test option of the console version of primesieve might cause
+   an infinite loop when compiled with MSVC (Windows).
+   The error was related to 64-bit random number generation in
+   console/test.cpp.
+   >> FIXED in version 2.2, committed on the 9th May 2011
+
+2. Primes preceding the startNumber might be counted and printed e.g.:
+   $ ./primesieve 1000007999999999 1000007999999999
+   Sieve size set to 64 KiloBytes
+   100%
+   Prime numbers: 2
+   Time elapsed: 0.03 sec
+   >> FIXED in version 1.05, committed on the 8th January 2011
+   >> Thanks to Andrey Kulsha for bug reporting
+
+1. The console version of primesieve 1.0 produces wrong status output
+   in some cases e.g.:
+   $ ./primesieve 10000000000000000 10000000000000001 -s 256
+   Sieve size set to 256 KiloBytes
+   100%966296%
+   Prime numbers: 0
+   Time elapsed: 0.106 sec
+   100%966296% is an error, should be 100%
+   >> FIXED in version 1.01, committed on the 23rd December 2010

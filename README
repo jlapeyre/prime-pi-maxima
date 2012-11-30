@@ -1,0 +1,20 @@
+prime_pi is a maxima function that computes the prime counting function
+(or number of prime twins). The function is an interface to
+a C++ library written by Kim Walisch and tables compiled
+by Tom\'as Oliveira e Silva. At the time this maxima package was written,
+it was significantly faster than bothe Mathematica and sage.
+
+To build and install this package, you must:
+
+1) install the mext package manager.
+2) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
+3) start maxima and load ibuild.mac. Eg
+ (%i1) load("./ibuild.mac");
+
+Use the package as follows:
+(%i1) load(mext);
+(%o1)                  /home/username/.maxima/mext.lisp
+(%i2) require(prime_pi);
+(%o2) /home/username/.maxima/mext/v5.28.0-sbcl-v1.0.57.0.debian/prime_pi.mac
+(%i3) prime_pi(10);
+(%o3)                                  4

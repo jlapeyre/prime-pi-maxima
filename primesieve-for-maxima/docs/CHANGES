@@ -1,0 +1,120 @@
+New in version 3.4, 05/01/2012
+==============================
+
+1. I implemented a new algorithm for medium sieving primes that is up
+   to 20 percent faster on todays out-of-order CPUs,
+   see src/soe/EratMedium.cpp.
+2. I adapted the constants in defs.h due to the new EratMedium
+   algorithm, the maximum sieveSize is now 4096 kilobytes (previously
+   2048 kilobytes).
+3. I revised the Makefiles and INSTALL file.
+4. Added docs/LIBPRIMESIEVE and updated README and
+   docs/USAGE_EXAMPLES.
+
+New in version 3.3, 19/12/2011
+==============================
+
+1. Minor optimizations in src/soe/EratBig.cpp (2% speed up).
+2. Improved code readability and documentation of
+   src/soe/ParallelPrimeSieve.cpp.
+3. The sieveSize must be <= 2048 kilobytes now (previously 8192), this
+   makes the WheelFactorization.h & EratBase.h code easier to
+   understand.
+
+New in version 3.2, 13/11/2011
+==============================
+
+1. Fixed a bug in src/soe/ParallelPrimeSieve.cpp, see ../docs/BUGS.
+2. Added 32-bit prime number generation methods to PrimeSieve.
+3. Added a PrimeSieve::cancel_sieving exception that allows to cancel
+   sieving at run time (see docs/USAGE_EXAMPLES).
+4. ParallelPrimeSieve is now able to generate prime numbers using
+   multiple threads (previously only multi-threaded counting).
+5. The code readability and documentation of WheelFactorization.h/.cpp
+   has been improved (e.g. renamed sieveIndex to multipleIndex).
+6. PreSieve now initializes its preSieved_ array using a 2nd wheel
+   (modulo 6), up to 40 percent faster.
+7. I introduced a 'loopLimit' variable in EratSmall that saves some
+   calculations and reduces the code size.
+8. Added a testFlags(uint32_t) convenience function to PrimeSieve.
+9. EratMedium has been simplified, it runs faster than v. 3.1 using
+   Intel C++ 12.0 but slightly slower with most other compilers.
+
+New in version 3.1, 24/10/2011
+==============================
+
+1. EratBig::sieve(uint8_t*) now processes multiple sieving primes per
+   iteration, I measured a speed up of about 6 percent near 1E18.
+2. STL containers are now used instead of dynamic memory allocation in
+   Erat(Small|Medium) which improves multi-threading performance ~ 3%.
+3. The Bucket data structure (WheelFactorization.h) has been modified
+   and it performs well now with more compilers.
+4. EratMedium has been simplifed, the new code is far easier to
+   understand and it is faster with the GNU g++ compiler.
+5. Fixed an integer overflow bug in EratMedium.cpp (see BUGS file).
+6. The -test option (primesieve console) has been reviewed.
+7. I improved the code readability and code documentation, the README
+   and INSTALL files have also been revised.
+
+New in version 3.0, 09/07/2011
+==============================
+
+1. The source code is now licensed under the New BSD License
+   (previously GPL).
+2. The source code is now standard C++03 and ISO C99 (stdint.h), i.e.
+   I removed all compiler intrinsics and built-in functions:
+   80386 BSF, cpuid, SSE4.2 POPCNT.
+3. The thread scheduling of ParallelPrimeSieve has been improved,
+   10 percent speed up.
+4. Prime numbers are now generated using bitScanForward() instead of
+   lookup tables, 10 percent speed up.
+5. Implemented a fast bit population count function, see
+   popcount_lauradoux() in bithacks.h.
+6. Revised the option handling in the console version of primesieve,
+   added two new options: -o<OFFSET> and -r<PRE-SIEVE>
+7. README has been rewritten from scratch.
+8. Improved the code readability and revised the comments of the sieve
+   of Eratosthenes implementation.
+9. ResetSieve has been renamed to PreSieve.
+
+New in version 2.2, 26/05/2011
+==============================
+
+1. Added the file docs/USAGE_EXAMPLES which shows how to use
+   PrimeSieve and ParallelPrimeSieve objects.
+2. Fixed 4 minor bugs (see BUGS).
+3. 10% initialization speedup due to enhancement in
+   ModuloWheel::setWheelPrime(uint64_t, uint32_t*, uint32_t*, uint32_t*)
+4. Added prime number generation functions and a convenience function
+   to count prime numbers to PrimeSieve.
+5. The thread interface of ParallelPrimeSieve has been simplified.
+6. The code now compiles and runs with the sunCC compiler.
+7. The code readability has been improved.
+8. The documentation has been updated.
+
+New in version 2.1, 11/04/2011
+==============================
+
+1. Release of primesieve 2.1 GUI version.
+   + fixes start number bug (see BUGS file).
+   + supports integer arithmetic expressions as number input.
+   + uses threads (OpenMP) instead of processes.
+   + added qt-gui/README file.
+2. Fixes bug in Makefile when using the LLVM compiler.
+3. Updated README file.
+
+New in version 2.0, 15/02/2011
+==============================
+
+1. Added soe/ParallelPrimeSieve.cpp which counts primes in parallel
+   using OpenMP.
+2. Added an arithmetic expression parser (./expr) to ease number input.
+3. Added a test suite to the console version of primesieve
+   (option: -test) which runs various correctness tests.
+4. The console version has been reviewed and is first released.
+5. Fixed a minor bug in soe/PrimeNumberFinder.cpp which counts and
+   prints the prime preceding the start number (see BUGS file).
+6. Improved the memory pool of soe/EratBig.cpp, primesieve 1.0 ran
+   into trouble when sieving near 2^64.
+7. Makefile modified to better support GCC compatible compilers,
+   e.g. make CXX=x86_64-w64-mingw32-g++
