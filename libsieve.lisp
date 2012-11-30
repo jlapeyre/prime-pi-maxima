@@ -17,8 +17,14 @@
   (:unix "libgomp.so.1") (t (:default "libgomp")))
 (use-foreign-library libgomp)
 
-(define-foreign-library libprimesieve
-  (:unix "./libprimesieve.so") (t (:default "libprimesieve")))
+
+
+
+(define-foreign-library (libprimesieve :search-path (list "."
+      *default-pathname-defaults* *load-pathname*))                                                          
+  (:unix #p"libprimesieve.so")
+   (t (:default "libprimesieve")))
+
 (use-foreign-library libprimesieve)
 
 ;;;;;;;;;;;;;;;

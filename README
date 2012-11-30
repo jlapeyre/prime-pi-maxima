@@ -6,9 +6,10 @@ it was significantly faster than bothe Mathematica and sage.
 
 To build and install this package, you must:
 
-1) install the mext package manager.
-2) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
-3) start maxima and load ibuild.mac. Eg
+1) install the asdf package cl-cffi.
+2) install the mext package manager.
+3) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
+4) start maxima and load ibuild.mac. Eg
  (%i1) load("./ibuild.mac");
 
 Use the package as follows:

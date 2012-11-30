@@ -4,7 +4,8 @@
 (in-package :mext-maxima)
 
 (create-distribution "prime_pi"
-  :loader "load-prime_pi")
+  :loader "load-prime_pi"
+  :install-only "library-prime_pi")
 ;  :install-only "prime_pi-rtests")
 
 (mk:defsystem prime_pi
@@ -22,7 +23,14 @@
   :source-extension "mac"
   :components
    ((:file "prime_pi")))
+
+(mk:defsystem library-prime_pi
+  :source-extension "so" ; hardcoded here. Need to fix this somehow
+  :components
+   ((:file "libprimesieve")))
   
+
+
 ;; (mk:defsystem prime_pi-rtests
 ;;   :source-extension "mac"
 ;;   :source-pathname "rtests"
