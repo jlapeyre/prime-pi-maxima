@@ -1,7 +1,11 @@
 load(mext);
-mext_require("maxdoc");
-load_in_subdir(["prime_pi","system"]);
-mext_dist_clean();
-mext_dist_build();
-mext_dist_user_install();
-mext_dist_clean();
+
+if  member(lispname, ["gcl", "ecl" ]) then
+  print("The maxima package prime_pi does not work under ", lispname,".")
+  else (
+    mext_require("maxdoc"),
+    load_in_subdir(["prime_pi","system"]),
+    mext_dist_clean(),
+    mext_dist_build(),
+    mext_dist_user_install(),
+    mext_dist_clean());

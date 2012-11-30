@@ -11,10 +11,4 @@
 ;;   (asdf:load-system :asdf),
 ;; but this latter line is uneccesary, it seems
 #-gcl (asdf::clear-configuration)
-
-;; of course the above line will probably cause problems if other asdf packages are used
-;; with maxima
-
-;; rutils can't handle nested some nested structures. cl-store does serialization to
-;; binary files of  everything we need
 #-gcl (asdf:load-system :cffi)
