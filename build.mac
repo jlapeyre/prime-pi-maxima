@@ -1,6 +1,6 @@
 load(mext);
 
-if  member(lispname, ["gcl", "ecl" ]) then
+if  member(lispname, ["gcl", "ecl", "cmucl", "clisp" ]) then
   print("The maxima package prime_pi does not work under ", lispname,".")
   else (
     mext_require("maxdoc"),

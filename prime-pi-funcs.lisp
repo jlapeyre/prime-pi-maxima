@@ -37,10 +37,13 @@
       (progn (setf max min) (setf min 2)))
   (prime-pi::prime-twins $ktuplet  n-threads $status min max))
 
+#-(or gcl clisp allegro)
 (max-doc::see-also "prime_twins" '("prime_pi" "next_prime" "prev_prime" "primep"))
 
+#-(or gcl clisp allegro)
 (add-call-desc  '( "prime_twins" ("n") ("returns the number of prime twins less than or equal to " arg "n" "."))
  '( "prime_twins" ("nmin" "nmax") ("returns the number of prime twins between " arg "nmin" " and "
                                    arg "max" ".")))
 
+#-(or gcl clisp allegro)
 (max-doc::implementation "prime_twins"  "No tables are used in this algorithm.")
