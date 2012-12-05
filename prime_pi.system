@@ -11,7 +11,7 @@
   :source-extension "lisp"
   :components
    (
-    (:file "load-cl-cffi" :load-only t)
+;    (:file "load-cl-cffi" :load-only t)
     (:file "prime_pi-packages" :load-only t)
     (:file "prime_pi_tables")
     (:file "prime-tables")

@@ -4,6 +4,8 @@ if  member(lispname, ["gcl", "ecl", "cmucl", "clisp" ]) then
   print("The maxima package prime_pi does not work under ", lispname,".")
   else (
     mext_require("maxdoc"),
-    load_in_subdir(["store","system"]),
+    require("quicklisp"),
+    quicklisp_load("cffi"),
+    load_in_subdir(["prime_pi","system"]),
     mext_dist_clean(),
     mext_dist_build());

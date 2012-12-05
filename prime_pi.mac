@@ -1,7 +1,9 @@
-mext_require("maxdoc");
+require("maxdoc");
+require("quicklisp");
+quicklisp_load("cffi");
+
 mext_provide("prime_pi",
   [
-  "load-cl-cffi",
   "prime_pi-packages",
   "prime_pi_tables",
   "prime-tables",

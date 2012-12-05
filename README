@@ -4,12 +4,14 @@ a C++ library written by Kim Walisch and tables compiled
 by Tom\'as Oliveira e Silva. At the time this maxima package was written,
 it was significantly faster than both Mathematica and sage.
 
+Building this package will use quicklisp to download and install
+the asdf package cffi, as well as supporting packages
+
 To build and install this package, you must:
 
-1) install the asdf package cl-cffi.
-2) install the mext package manager, and packages defmfun1 and maxdoc.
-3) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
-4) start maxima and load ibuild.mac. Eg
+1) install the mext package manager, and packages defmfun1 and maxdoc.
+2) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
+3) start maxima and load ibuild.mac. Eg
  (%i1) load("./ibuild.mac");
 
 Use the package as follows:
