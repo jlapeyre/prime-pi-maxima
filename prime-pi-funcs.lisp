@@ -11,10 +11,11 @@
 #-(or gcl clisp allegro)
 (defmfun1 ($prime_pi :doc)  ((n :uint-64) &opt ( ($threads n-threads) 1  :non-neg-int )
                      ( $status nil :bool ))
-  "Computes the prime counting function. The option <threads> specifies the maximum number of cpu
- threads to use. Fewer threads may be used depending on <n>. The percent of the calculation that 
- is finished is printed during the
- calculation if the option 'status' is true. The status will only work under certain terminals."
+  :desc ("Computes the prime counting function. The option "
+  arg "threads" " specifies the maximum number of cpu
+ threads to use. The routine may use fewer threads, depending on the value of "
+ argdot "n" " The percent of the calculation that is finished is printed during the
+ calculation if the option " arg "status" " is true. The status will only work under certain terminals.")
   (setf $status (if $status 1 0))
   (prime-pi::prime-pi-with-table n-threads $status  n))
 
@@ -30,8 +31,8 @@
 (defmfun1 ($prime_twins :doc)  ((min :uint-64) &optional (max :uint-64)
                                 &opt ( ($threads n-threads) 1  :non-neg-int )
                                 ( $status nil :bool ) ($ktuplet 2 (:int-range 1 7) ))
-  "The option ktuplet -> <k> counts the <k>-constellation rather than the twins. k must
-   be an integer between 1 and 7."
+  :desc ("The option " opt "ktuplet" " counts the " opt "ktuplet" "-constellation rather than the twins. "
+ opt "ktuplet" " must be an integer between 1 and 7.")
   (setf $status (if $status 1 0))
   (if max t
       (progn (setf max min) (setf min 2)))

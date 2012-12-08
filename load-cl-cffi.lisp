@@ -1,3 +1,5 @@
+;; obsolete
+
 (in-package :maxima)
 ;; gcl can't use any of this yet.
 ;; ccl understands  (require :asdf), but not maxima built with ccl

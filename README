@@ -9,8 +9,10 @@ the asdf package cffi, as well as supporting packages
 
 To build and install this package, you must:
 
-1) install the mext package manager, and packages defmfun1 and maxdoc.
+1) install the mext package manager, and packages defmfun1 and maxdoc. These are
+   all in the github repository 'mext'.
 2) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
+   Under linux, cd to primesieve-for-maxima and type 'make lib'.
 3) start maxima and load ibuild.mac. Eg
  (%i1) load("./ibuild.mac");
 
