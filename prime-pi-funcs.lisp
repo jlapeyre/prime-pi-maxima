@@ -2,8 +2,12 @@
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
-;;; the Free Software Foundation; either version 2 of the License, or
+;;; the Free Software Foundation; either version 3 of the License, or
 ;;; (at your option) any later version.
+(in-package :maxima)
+
+;; The reader macros here are kind of redundant. The lisps we can't use are
+;; also filtered at the mext level.
 
 (max-doc:set-cur-sec 'max-doc::number-theory-fandv)
 (defmfun1:set-mext-package "prime_pi")
@@ -13,19 +17,20 @@
                      ( $status nil :bool ))
   :desc ("Computes the prime counting function. The option "
   :arg "threads" " specifies the maximum number of cpu
- threads to use. The routine may use fewer threads, depending on the value of "
- :argdot "n" " The percent of the calculation that is finished is printed during the
- calculation if the option " :arg "status" " is true. The status will only work under certain terminals.")
+  threads to use. The routine may use fewer threads, depending on the value of "
+  :argdot "n" " The percent of the calculation that is finished is printed during the
+  calculation if the option " :arg "status" " is true. The status will only work under some terminals.")
   (setf $status (if $status 1 0))
   (prime-pi::prime-pi-with-table n-threads $status  n))
 
 #-(or gcl clisp allegro)
 (progn
   (add-call-desc '( "prime_pi" ("n") ("returns the number of primes less than or equal to " arg "n" ".")))
-  (max-doc::see-also "prime_pi" '("prime_pi_soe" "next_prime" "prev_prime"))
-  (max-doc::implementation "prime_pi"  "The algorithm combines a segmented sieve with tables."))
-
-
+  (max-doc:see-also "prime_pi" '("prime_pi_soe" "next_prime" "prev_prime"))
+  (max-doc:implementation "prime_pi"  
+   "This algorithm is fast for a general purpose mathematics program.
+    It combines a segmented sieve implemented as a C library with tables.")
+  (max-doc:author "prime_pi" '("Kim Walisch (C library)" "Tomas Oliveira e Silva (tables)" "John Lapeyre (lisp)")))
 
 #-(or gcl clisp allegro)
 (defmfun1 ($prime_twins :doc)  ((min :uint-64) &optional (max :uint-64)
