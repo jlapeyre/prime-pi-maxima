@@ -25,7 +25,7 @@
 
 #-(or gcl clisp allegro)
 (progn
-  (add-call-desc '( "prime_pi" ("n") ("returns the number of primes less than or equal to " arg "n" ".")))
+  (add-call-desc '( "prime_pi" ("n") ("returns the number of primes less than or equal to " :arg "n" ".")))
   (max-doc:see-also "prime_pi" '("prime_pi_soe" "next_prime" "prev_prime"))
   (max-doc:implementation "prime_pi"  
    "This algorithm is fast, for a general purpose mathematics program.
@@ -47,9 +47,9 @@
 (max-doc::see-also "prime_twins" '("prime_pi" "next_prime" "prev_prime" "primep"))
 
 #-(or gcl clisp allegro)
-(add-call-desc  '( "prime_twins" ("n") ("returns the number of prime twins less than or equal to " arg "n" "."))
- '( "prime_twins" ("nmin" "nmax") ("returns the number of prime twins between " arg "nmin" " and "
-                                   arg "max" ".")))
+(add-call-desc  '( "prime_twins" ("n") ("returns the number of prime twins less than or equal to " :arg "n" "."))
+ '( "prime_twins" ("nmin" "nmax") ("returns the number of prime twins between " :arg "nmin" " and "
+                                   :arg "max" ".")))
 
 #-(or gcl clisp allegro)
 (max-doc::implementation "prime_twins"  "No tables are used in this algorithm.")
