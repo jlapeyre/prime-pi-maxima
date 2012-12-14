@@ -28,7 +28,7 @@
   (add-call-desc '( "prime_pi" ("n") ("returns the number of primes less than or equal to " arg "n" ".")))
   (max-doc:see-also "prime_pi" '("prime_pi_soe" "next_prime" "prev_prime"))
   (max-doc:implementation "prime_pi"  
-   "This algorithm is fast for a general purpose mathematics program.
+   "This algorithm is fast, for a general purpose mathematics program.
     It combines a segmented sieve implemented as a C library with tables.")
   (max-doc:author "prime_pi" '("Kim Walisch (C library)" "Tomas Oliveira e Silva (tables)" "John Lapeyre (lisp)")))
 
