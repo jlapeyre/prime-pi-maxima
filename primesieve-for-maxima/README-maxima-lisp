@@ -40,5 +40,3 @@ I modified the library to check for the global variable here and
 there. I don't know that it cleans up properly. At any rate, catching
 SIGINT is essential, because it is very easy for the user to start
 a sieving that runs for a very long time.
-
-

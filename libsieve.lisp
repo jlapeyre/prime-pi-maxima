@@ -17,30 +17,36 @@
   (:unix "libgomp.so.1") (t (:default "libgomp")))
 (use-foreign-library libgomp)
 
-
-
-
-(define-foreign-library (libprimesieve :search-path (list "."
-      *default-pathname-defaults* *load-pathname*))                                                          
+(define-foreign-library
+  (libprimesieve :search-path 
+                 (list "." *default-pathname-defaults* *load-pathname*))
   (:unix #p"libprimesieve.so")
    (t (:default "libprimesieve")))
 
 (use-foreign-library libprimesieve)
 
-;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  finding how to close is a pita use this 
 ;; (close-foreign-library 'libprimesieve)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Define the interface functions to the C libarary here
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; number of primes between min and max
-(defcfun "prime_pi" :uint64 (k-tuplet :int) (num-threads :int) (progress :int) (min :uint64) (max :uint64))
+(defcfun "prime_pi" :uint64 (k-tuplet :int) 
+  (num-threads :int) (progress :int) (min :uint64) (max :uint64))
 
 ;; number of primes between min and max using mulitple processor threads
-(defcfun "p_prime_pi" :uint64 (num-threads :int) (min :uint64) (max :uint64))
+(defcfun "p_prime_pi" :uint64 (num-threads :int) 
+  (min :uint64) (max :uint64))
 
-;; old
-;;(defcfun "prime_twins" :uint64  (min :uint64) (max :uint64))
+(defcfun "check_error_status" :int )
 
-(defcfun "check_error_status" :int  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Define the functions to be called by 
+;; maxima functions here.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun prime-twins (k-tuplet n-threads progress min max)
   (let ((res (prime-pi k-tuplet n-threads progress min max))

@@ -15,11 +15,11 @@
 
 ;; looks like I don't need this now
 ;; The tables are constructed as arrays.
-(defun prime-data-list-to-array (data-list)
-  "Somehow was not able to initialize array with large literal
-   list. So make the array in two stages, with the literal list
-   created first."
-  (make-array (length data-list) :initial-contents data-list))
+;(defun prime-data-list-to-array (data-list)
+;  "Somehow was not able to initialize array with large literal
+;   list. So make the array in two stages, with the literal list
+;   created first."
+;  (make-array (length data-list) :initial-contents data-list))
 
 (defun set-prime-table (data-array  exp)
   (let* ((base 10)
