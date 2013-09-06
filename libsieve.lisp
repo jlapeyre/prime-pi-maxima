@@ -59,10 +59,13 @@
     (decf rem)
     (if (<= rem 0)
         pi-tab
-        (let* ((res (prime-pi 1 n-threads progress min (+ min rem)))
-               (error-status (check-error-status)))
-          (if (eq error-status 0) (+ pi-tab res)
-              nil)))))
+      (let* ((res (prime-pi 1 n-threads progress min (+ min rem)))
+             (error-status (check-error-status)))
+        (if (eq error-status 0) 
+            (progn
+;              (prime-tables::record-cached-prime-pi x (+ pi-tab res))
+              (+ pi-tab res))
+          nil)))))
 
 ;; not used now.
 #|

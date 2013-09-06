@@ -8,18 +8,10 @@
   (max 0 :type real))
 
 ;; this is referenced in data table files
-;(defvar *prime-pi-tables* '() )
 (defparameter *prime-tables-structs* '())
 (defparameter *prime-table-maxes* '())
-;;(defparameter *prime-tables* '())
 
-;; looks like I don't need this now
-;; The tables are constructed as arrays.
-;(defun prime-data-list-to-array (data-list)
-;  "Somehow was not able to initialize array with large literal
-;   list. So make the array in two stages, with the literal list
-;   created first."
-;  (make-array (length data-list) :initial-contents data-list))
+(defparameter *prime-pi-cached* (make-hash-table))
 
 (defun set-prime-table (data-array  exp)
   (let* ((base 10)
@@ -33,6 +25,9 @@
      :max (* incr (1- (length data-array))))))
 
 (defun look-up-pi-and-rem-in-table (x table)
+ "Return a list (pi-tab min rem), where `pi-tab' is
+  the value of prime pi function at argument `min',
+  and `rem'= `x'-`min'"
   (let ((incr (prime-table-incr table)))
     (multiple-value-bind (indv remv) (floor x incr)
 ;;      (format t "incr ~a indv ~a  remv ~a~%" incr indv remv)
@@ -58,27 +53,34 @@
     (mapcar #'prime-table-max *prime-tables-structs*))
   t)
 
-(defun prime-pi-table-filename (base)
-  (concatenate 'string "./1d"
-               (format nil "~2,'0D" base) ".lisp"))
-
-(defun old-load-prime-pi-tables ()
-  "Don't load file 1d00, it uses 10^k rather than k 10^n."
-  (let ((min-base 1) (max-base 22))
-    (loop for i from min-base to max-base do
-         (load (prime-pi-table-filename i)))))
-
-(defun load-prime-pi-tables ()
-  "Don't load file 1d00, it uses 10^k rather than k 10^n.")
-;  (load "./prime_pi_tables.lisp"))
-
 (defun setup-prime-pi-tables ()
-;;  (format t "length is ~a~%" (length *prime-pi-tables*))
-  (unless (> (length *prime-pi-tables*) 0)
-    (load-prime-pi-tables))
+;  (unless (> (length *prime-pi-tables*) 0)
+;    (load-prime-pi-tables))
   (setup-prime-pi-tables-1))
 
 (setup-prime-pi-tables)
+
+;; looks like I don't need this now
+;; The tables are constructed as arrays.
+;(defun prime-data-list-to-array (data-list)
+;  "Somehow was not able to initialize array with large literal
+;   list. So make the array in two stages, with the literal list
+;   created first."
+;  (make-array (length data-list) :initial-contents data-list))
+
+;(defun load-prime-pi-tables ()
+;  "Don't load file 1d00, it uses 10^k rather than k 10^n.")
+;  (load "./prime_pi_tables.lisp"))
+
+;(defun prime-pi-table-filename (base)
+;  (concatenate 'string "./1d"
+;               (format nil "~2,'0D" base) ".lisp"))
+
+;(defun old-load-prime-pi-tables ()
+;  "Don't load file 1d00, it uses 10^k rather than k 10^n."
+;  (let ((min-base 1) (max-base 22))
+;    (loop for i from min-base to max-base do
+;         (load (prime-pi-table-filename i)))))
 
 ;; Load the tables
 ;;(prime-tables::setup-prime-pi-tables)
