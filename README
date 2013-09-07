@@ -18,9 +18,9 @@ threads.  If you don't want mext, it would be possible to hack this to
 work with maxima without mext.
 
 Implemented are: 
-  * A lisp (via cffi) interface to the C++ seive library.
+  * A lisp (via cffi) interface to the C++ sieve library.
   * A lisp interface to the prime pi tables.
-  * A lisp function that combines lookup and seiving to
+  * A lisp function that combines lookup and sieving to
     return a value of the prime pi function
   * A maxima interface to the lisp interface.
 
