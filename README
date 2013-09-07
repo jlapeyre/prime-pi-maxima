@@ -1,28 +1,137 @@
-prime_pi is a maxima function that computes the prime counting function
-(or number of prime twins). The function is an interface to
-a C++ library written by Kim Walisch and tables compiled
-by Tom\'as Oliveira e Silva. At the time this maxima package was written,
-it was significantly faster than both Mathematica and sage.
+ Copyright (C) 2012 John Lapeyre This program is free software; you
+ can redistribute it and/or modify it under the terms of the GNU
+ General Public License as published by the Free Software Foundation;
+ either version 3 of the License, or (at your option) any later
+ version.
+
+----------------------------------------------
+
+prime_pi provides a Common Lisp, as well as a maxima function
+that computes the prime counting function (also number of prime
+twins). The function is an interface to a C++ library written by Kim
+Walisch and tables compiled by Tom\'as Oliveira e Silva.
+
+Using this package directly requires 1) maxima/lisp that supports
+quicklisp and cffi (e.g. yes sbcl, but no gcl). 2) installing the mext
+third party maxima package system. 3) a c++ compiler that supports
+threads.  If you don't want mext, it would be possible to hack this to
+work with maxima without mext.
+
+Implemented are: 
+  * A lisp (via cffi) interface to the C++ seive library.
+  * A lisp interface to the prime pi tables.
+  * A lisp function that combines lookup and seiving to
+    return a value of the prime pi function
+  * A maxima interface to the lisp interface.
+
+At the time this maxima package was written, it was significantly
+faster than both the Mathematica and Sage prime pi implementations.
 
 Building this package will use quicklisp to download and install
-the asdf package cffi, as well as supporting packages
+the asdf package cffi, as well as supporting packages. So only
+maxima/lisp implementations that support quicklisp and cffi 
+will work.
+
+----------------------------------------------
 
 To build and install this package, you must:
 
-1) install the mext package manager, and packages defmfun1 and maxdoc. These are
-   all in the github repository 'mext'.
-2) build the C++ library. Instructions are in primesieve-for-maxima/README-maxima.lisp
-   Under linux, cd to primesieve-for-maxima and type 'make lib'.
+1) install the mext package manager, and packages defmfun1 and
+   maxdoc. These are all in the github repository 'mext'.
+
+2) build the C++ library. Instructions are in
+   primesieve-for-maxima/README-maxima.lisp Under linux:
+
+    cd primesieve-for-maxima
+    make lib
+
 3) start maxima and load ibuild.mac. Eg
+
  (%i1) load("./ibuild.mac");
 
+----------------------------------------------
+
 Use the package as follows:
-(%i1) load(mext);
-(%o1)                  /home/username/.maxima/mext.lisp
-(%i2) require(prime_pi);
-(%o2) /home/username/.maxima/mext/v5.28.0-sbcl-v1.0.57.0.debian/prime_pi.mac
-(%i3) prime_pi(10);
-(%o3)                                  4
+
+(%i1) showtime:true$
+(%i2) load(mext);
+ Evaluation took 0.0500 seconds (0.0480 elapsed) using 5.215 MB.
+(%o2)                  /home/jlapeyre/.maxima/mext.lisp
+(%i3) require(prime_pi)$
+ Evaluation took 0.9600 seconds (1.0980 elapsed) using 148.503 MB.
+(%i4) prime_pi(10^19+10^9,threads->8);
+ Evaluation took 56.3700 seconds (7.4140 elapsed) using 0 bytes.
+(%o4)                         234057667299198865
+
+----------------------------------------------
 
 Get help online with
- ?? prime
+
+  ?? prime
+
+----------------------------------------------
+
+Online documentation:
+
+ -- Function: prime_pi: prime_pi(<n>)
+    Section: Functions and Variables for Number Theory
+    mext package: prime_pi; filename: max-ql.lisp
+
+Calling:
+    prime_pi(<n>)
+        returns the number of primes less than or equal to <n>.
+
+Description:
+   Computes the prime counting function. The option <threads> specifies the 
+   maximum number of cpu threads to use. The routine may use fewer threads, 
+   depending on the value of <n>. The value of <n> is limited to 2^64, that is, 
+   about 1.84e+18. 
+   
+   The percent of the calculation that is finished is printed during the 
+   calculation if the option <status> is true. The status will only work under 
+   some terminals.
+Arguments:
+   `prime_pi' requires one argument <n>, which must be equivalent 
+    to an unsigned 64 bit integer (that is, an integer 
+    between 0 and 2 to the power 64).
+
+Options:  prime_pi takes options with default values: status->false, threads->1.
+
+
+Implementation:
+    This algorithm is fast, especially for a general purpose mathematics 
+    program. It combines a segmented sieve implemented as a C library with 
+    tables.
+
+  Authors:  Kim Walisch (C library), Tomas Oliveira e Silva (tables), and John Lapeyre (lisp).
+
+------------------------------------------------
+ -- Function: prime_twins: prime_twins(<min> :optional <max>)
+    Section: Functions and Variables for Number Theory
+    mext package: prime_pi; filename: max-ql.lisp
+
+Calling:
+    prime_twins(<n>)
+        returns the number of prime twins less than or equal to <n>.
+
+    prime_twins(<nmin>, <nmax>)
+        returns the number of prime twins between <nmin> and <max>.
+
+Description:
+   The option <ktuplet> counts the <ktuplet>-constellation rather than the 
+   twins. <ktuplet> must be an integer between 1 and 7.
+Arguments:
+   `prime_twins' requires either one or two arguments.
+    The first argument <min> must be equivalent to an unsigned 64 bit integer
+ (that is, an integer between 0 and 2 to the power 64).
+
+    The second argument <max> must be equivalent to an unsigned 64 bit integer
+ (that is, an integer between 0 and 2 to the power 64).
+
+Options:  prime_twins takes options with default values: 
+       ktuplet->2, status->false, threads->1.
+
+See also:  prime_pi, next_prime, prev_prime, and primep.
+
+Implementation:
+       No tables are used in this algorithm.

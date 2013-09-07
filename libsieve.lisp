@@ -23,7 +23,15 @@
   (:unix #p"libprimesieve.so")
    (t (:default "libprimesieve")))
 
-(use-foreign-library libprimesieve)
+(handler-case
+ (use-foreign-library libprimesieve)
+ (error (c)
+    (error (format nil 
+           (concatenate 'string
+        "*** Can't load the libprimesieve c++ library.~%"
+        " Maybe you did not compile the library?~%"
+        " See the README for prime_pi~%"
+        " use-foreign-libarary failed with error:~%~a") c))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;  finding how to close is a pita use this 
