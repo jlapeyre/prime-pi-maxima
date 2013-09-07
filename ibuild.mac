@@ -1,6 +1,14 @@
+/*
+  Note: unlike many mext packages, it is not enough to do
+  load("./path/to/ibuild.mac") to build and install prime_pi.
+  First the C++ libarary must be built. See the README
+*/  
+
 load(mext);
 
-/* maybe it is not too much work to get this to work under some of these lisps */
+/* maybe it is not too much work to get this to work under some of
+  these lisps */
+
 if  member(lispname, ["gcl", "ecl", "cmucl", "clisp" ]) then
   print("The maxima package prime_pi does not work under ", lispname,".")
   else (
