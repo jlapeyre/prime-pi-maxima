@@ -1,4 +1,4 @@
-;; obsolete, I think this is never called.
+;; obsolete. This is never called.
 
 (in-package :maxima)
 ;; gcl can't use any of this yet.

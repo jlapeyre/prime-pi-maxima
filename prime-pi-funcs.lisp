@@ -7,7 +7,9 @@
 (in-package :maxima)
 
 ;;; These are the highest level functions for the prime_pi package.
-;;; They are called from maxima.
+;;; They are called directly from maxima.
+;;; The functions that they call should be callable from CL
+;;; independently from maxima.
 
 ;; The reader macros here are kind of redundant. The lisps we can't
 ;; use are also filtered at the mext level.

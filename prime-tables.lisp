@@ -1,4 +1,23 @@
+;;; Copyright (C) 2012 John Lapeyre
+;;;
+;;; This program is free software; you can redistribute it and/or modify
+;;; it under the terms of the GNU General Public License as published by
+;;; the Free Software Foundation; either version 3 of the License, or
+;;; (at your option) any later version.
 (in-package :prime-tables)
+
+;;; Find values of prime pi by combining computation
+;;;  with table lookup.
+;;;
+;;; This code loads the tables and provides a lisp interface to
+;;; the tables.
+;;;
+;;; The main interface function is look-up-pi-and-rem (x),
+;;; which finds prime_pi(x1) for the largest x1
+;;; in the table, such that x1 <= x. It returns a list
+;;; of prime_pi(x1), x1, and x-x1.
+;;; This information can be used by the caller to know that
+;;; primes must be searched for between x1 and x.
 
 (defstruct (prime-table)
   (data '#() :type array)

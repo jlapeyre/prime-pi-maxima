@@ -8,11 +8,11 @@
 (asdf:oos 'asdf:load-op :cffi)
 (in-package :prime-pi)
 
-;; This is a cffi interface to the C++ library 'primesieve' by Kim Walisch
+;;; This is a cffi interface to the C++ library 'primesieve' by Kim Walisch.
+;;; This file does not depend on, or require the maxima CAS.
 
 ;; may want to set the following
 ;; cffi::*foreign-library-directories*
-
 (define-foreign-library libgomp
   (:unix "libgomp.so.1") (t (:default "libgomp")))
 (use-foreign-library libgomp)
@@ -46,6 +46,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Define the functions to be called by 
 ;; maxima functions here.
+;; These should be callable from lisp without maxima.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun prime-twins (k-tuplet n-threads progress min max)
