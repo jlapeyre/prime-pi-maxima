@@ -24,7 +24,8 @@
   ("Computes the prime counting function. The option "
    :arg "threads" " specifies the maximum number of cpu threads to use. The routine
     may use fewer threads, depending on the value of " :argdot "n"
-   " The value of " :arg "n" " is limited to 2^64, that is, about 1.84e+18."
+   " The value of " :arg "n" " is limited to "
+   :tmath ("2^{64}" "2^64") " that is, about 1.84e+18."
    :par ""
    " The percent of the calculation that is finished is printed during the
    calculation if the option " :arg "status" " is true. The status will only work under 
