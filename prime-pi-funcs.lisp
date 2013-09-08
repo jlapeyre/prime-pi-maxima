@@ -18,7 +18,7 @@
 (defmfun1:set-mext-package "prime_pi")
 
 #-(or gcl clisp allegro)
-(defmfun1 ($prime_pi :doc)  ((n :uint-64) &opt ( ($threads n-threads) 1  :non-neg-int )
+(defmfun1 ($prime_pi :doc)  ((n :uint-64 :thread) &opt ( ($threads n-threads) 1  :non-neg-int )
                      ( $status nil :bool ))
   :desc 
   ("Computes the prime counting function. The option "
@@ -49,7 +49,7 @@
    '("Kim Walisch (C library)" "Tomas Oliveira e Silva (tables)" "John Lapeyre (lisp)")))
 
 #-(or gcl clisp allegro)
-(defmfun1 ($prime_twins :doc)  ((min :uint-64) &optional (max :uint-64)
+(defmfun1 ($prime_twins :doc)  ((min :uint-64 :thread) &optional (max :uint-64 :thread)
                                 &opt ( ($threads n-threads) 1  :non-neg-int )
                                 ( $status nil :bool ) ($ktuplet 2 (:int-range 1 7) ))
   :desc 
