@@ -34,6 +34,8 @@
   (setf $status (if $status 1 0))
   (prime-pi::prime-pi-with-table n-threads $status  n))
 
+(max-doc::oeis "prime_pi" "A000720")
+
 #-(or gcl clisp allegro)
 (progn
   (add-call-desc 
