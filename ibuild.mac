@@ -4,7 +4,7 @@
   First the C++ libarary must be built. See the README
 */  
 
-load(mext);
+load("mext.lisp");
 
 /* maybe it is not too much work to get this to work under some of
   these lisps */
